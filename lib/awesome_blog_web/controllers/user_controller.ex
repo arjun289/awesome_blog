@@ -15,6 +15,12 @@ defmodule AwesomeBlogWeb.UserController do
   end
 
   def create(conn, params) do
-    
+    with {:ok, %User{} = user} <- Account.create_user(params) do
+      conn
+      |> put_flash(:info, "#{user.name} is created!")
+      |> redirect(to: user_path(conn, :show, user))
+    else
+      {:error, changeset} -> render(conn, "new.html", changeset: changeset)
+    end
   end
 end
