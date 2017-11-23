@@ -9,15 +9,22 @@ defmodule AwesomeBlogWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :with_session do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+    plug AwesomeBlogWeb.Currentuser
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/", AwesomeBlogWeb do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :with_session] # Use the default browser stack
 
     get "/", PageController, :index
     resources "/users", UserController, only: [:show, :new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

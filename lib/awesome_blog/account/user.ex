@@ -29,7 +29,7 @@ defmodule AwesomeBlog.Account.User do
 
   defp hash_password(changeset) do
     case changeset do
-      {%Ecto.Changeset{valid?: true, changes: %{password: password}}} ->
+      %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
           put_change(changeset, :password_hash, Bcrypt.hashpwsalt(password))
       _ -> changeset
     end
