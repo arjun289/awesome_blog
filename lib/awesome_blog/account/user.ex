@@ -1,13 +1,14 @@
 defmodule AwesomeBlog.Account.User do
   use AwesomeBlog.Data
   alias Comeonin.Bcrypt
+  alias AwesomeBlog.Blog.Post
 
   schema "users" do
     field :email, :string
     field :name, :string
     field :password, :string, virtual: true
     field :password_hash, :string
-
+    has_many :posts, Post
     timestamps()
   end
 
