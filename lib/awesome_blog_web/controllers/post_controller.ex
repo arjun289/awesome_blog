@@ -2,6 +2,7 @@ defmodule AwesomeBlogWeb.PostController do
   use AwesomeBlogWeb, :controller
   alias AwesomeBlog.Blog
   alias AwesomeBlog.Blog.Post
+  alias Guardian.Plug
 
   def index(conn, _params) do
     with posts <- Blog.list_posts do
@@ -11,11 +12,15 @@ defmodule AwesomeBlogWeb.PostController do
 
 
   def new(conn, _params) do
+    current_user = Plug.current_resource(conn)
     changeset = Blog.change_post(%Post{})
-    render(conn, "new.html", changeset: changeset)  
+    
+    render(conn, "new.html", changeset: changeset, current_user: current_user)  
   end
 
   def create(conn, %{"post" => post_params}) do
+    current_user = Plug.current_resource(conn)
+    post_params = post_params |> Map.put("user_id", current_user.id)
     case Blog.create_post(post_params) do
       {:ok, post} -> 
         conn 
@@ -38,7 +43,7 @@ defmodule AwesomeBlogWeb.PostController do
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do
-        post = Blog.get_post!(id)
+    post = Blog.get_post!(id)
 
     case Blog.update_post(post, post_params) do
       {:ok, post} ->

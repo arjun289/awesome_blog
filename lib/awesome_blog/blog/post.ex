@@ -2,7 +2,7 @@ defmodule AwesomeBlog.Blog.Post do
   use AwesomeBlog.Data
   alias AwesomeBlog.Account.User
   alias AwesomeBlog.Blog.Post
-  @post_fields [:title, :content]
+  @post_fields [:title, :content, :user_id]
 
   schema "posts" do
     field :title, :string
@@ -15,6 +15,6 @@ defmodule AwesomeBlog.Blog.Post do
   def changeset(%Post{} = post, attrs) do
     post
       |> cast(attrs, @post_fields)
-      |> validate_required([:title, :content])
+      |> validate_required([:title, :content, :user_id])
   end
 end
