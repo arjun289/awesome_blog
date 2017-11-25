@@ -3,6 +3,18 @@ defmodule AwesomeBlogWeb.PostController do
   alias AwesomeBlog.Blog
   alias AwesomeBlog.Blog.Post
   alias Guardian.Plug
+    plug(
+    Plug.EnsureAuthenticated,
+    [handler: __MODULE__]
+    when action in ~w(new create edit update)a
+  )
+
+  def unauthenticated(conn, _) do
+    conn
+    |> put_status(302)
+    |> put_flash(:info, "Authentication required")
+    |> redirect(to: "/")
+  end
 
   def index(conn, _params) do
     with posts <- Blog.list_posts do
