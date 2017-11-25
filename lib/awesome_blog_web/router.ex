@@ -23,7 +23,7 @@ defmodule AwesomeBlogWeb.Router do
     pipe_through [:browser, :with_session] # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/users", UserController, only: [:show, :new, :create]
+    resources "/users", UserController, only: [:show, :new, :create, :index]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 

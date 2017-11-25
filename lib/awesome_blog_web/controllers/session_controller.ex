@@ -11,13 +11,15 @@ defmodule AwesomeBlogWeb.SessionController do
 
   def create(conn, %{"session" => %{"email" => email, "password" => password}}) do
     with %User{} = user <- Account.get_user_by_email(email),
-      true <- user && checkpw(password, user.password_hash) do 
+      true <- user && checkpw(password, user.password_hash) do
         conn
         |> login(user)
         |> put_flash(:info, "You are now logged in!")
         |> redirect(to: page_path(conn, :index))
       else
-        nil -> conn |> put_flash(:error, "Invalid Email, User not present!") |> render("new.html")
+        nil -> dummy_checkpw()
+          conn
+          |>  put_flash(:error, "Invalid Email, User not present!") |> render("new.html")
         false -> conn |> put_flash(:error, "Invalid password!") |> render("new.html")
     end
   end

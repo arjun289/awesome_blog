@@ -16,4 +16,8 @@ defmodule AwesomeBlog.Account do
     User
     |> Repo.get_by(email: email)
   end
+
+  def get_users() do 
+    Repo.all(User)
+  end
 end
