@@ -6,7 +6,7 @@ defmodule AwesomeBlogWeb.PostController do
     plug(
     Plug.EnsureAuthenticated,
     [handler: __MODULE__]
-    when action in ~w(new create edit update)a
+    when action in ~w(new create edit update delete)a
   )
 
   def unauthenticated(conn, _) do

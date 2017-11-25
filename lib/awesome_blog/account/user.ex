@@ -1,7 +1,6 @@
 defmodule AwesomeBlog.Account.User do
   use AwesomeBlog.Data
   alias Comeonin.Bcrypt
-  alias AwesomeBlog.Blog.Post
 
   schema "users" do
     field :email, :string
