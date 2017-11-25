@@ -1,6 +1,6 @@
 defmodule AwesomeBlog.Blog.Post do
   use AwesomeBlog.Data
-  alias AwesomeBlog.Account.User
+  alias AwesomeBlog.Blog.User
   alias AwesomeBlog.Blog.Post
   @post_fields [:title, :content, :user_id]
 
